@@ -377,6 +377,7 @@ class WriterThread(PyDBDaemonThread):
 
         try:
             while True:
+                do_continue = False
                 try:
                     try:
                         cmd = self._cmd_queue.get(True, 0.1)
@@ -399,12 +400,14 @@ class WriterThread(PyDBDaemonThread):
 
                             return  # break if queue is empty and _kill_received
                         else:
-                            continue
+                            do_continue = True
                 except:
                     # pydev_log.info('Finishing debug communication...(1)')
                     # when liberating the thread here, we could have errors because we were shutting down
                     # but the thread was still not liberated
                     return
+
+                if do_continue: continue
 
                 if cmd.as_dict is not None:
                     for listener in self.py_db.dap_messages_listeners:

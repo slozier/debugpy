@@ -68,7 +68,7 @@ LIBRARY_CODE_BASENAMES_STARTING_WITH = ('<',)
 IS_CPYTHON = platform.python_implementation() == 'CPython'
 
 # Hold a reference to the original _getframe (because psyco will change that as soon as it's imported)
-IS_IRONPYTHON = sys.platform == 'cli'
+IS_IRONPYTHON = sys.platform == 'cli' or platform.python_implementation() == 'IronPython'
 try:
     get_frame = sys._getframe
     if IS_IRONPYTHON:
